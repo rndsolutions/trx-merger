@@ -102,7 +102,8 @@ REQUIRED PARAMETERS:
 
 OPTIONAL PARAMETERS:
 
-/r - recursive search in directories. When there is a directory in /trx param (ex: /trx:c:\TestResuts), and this parameter is passed, the rearch for trx files will be recursice
+/r - recursive search in directories. When there is a directory in /trx param (ex: /trx:c:\TestResuts), and this parameter is passed, the rearch for trx files will be recursive
+    example: /trx:c:\TestResults,c:\TestResults1\testResults2.trx /r /output:combinedTestResults.trx
             ");
         }
 

@@ -68,6 +68,11 @@ namespace TRX_Merger.Utilities
                                           new XAttribute("testId", te.TestId),
                                           new XAttribute("executionId", te.ExecutionId),
                                           new XAttribute("testListId", te.TestListId)))),
+                        new XElement("TestLists",
+                            testRun.TestLists.Distinct().Select(
+                                 tl => new XElement("TestList",
+                                     new XAttribute("name", tl.Name),
+                                     new XAttribute("id", tl.Id)))),
                         new XElement("ResultSummary",
                             new XAttribute("outcome", testRun.ResultSummary.Outcome),
                             new XElement("Counters",
