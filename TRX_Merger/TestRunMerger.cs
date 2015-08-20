@@ -34,8 +34,8 @@ namespace TRX_Merger
 
         private static TestRun MergeTestRuns(List<TestRun> testRuns)
         {
-            string name = "";
-            string runUser = "";
+            string name = testRuns[0].Name;
+            string runUser = testRuns[0].RunUser;
 
             string startString = "";
             DateTime startDate = DateTime.MaxValue;

@@ -11,6 +11,15 @@ namespace TRX_Merger
     {
         public static int Main(string[] args)
         {
+            //args = new string[]
+            //{
+            //    @"/trx:C:\Program Files (x86)\Go Agent\pipelines\v7.4_Client.Release\TestResults",
+            //    @"/output:C:\Program Files (x86)\Go Agent\pipelines\v7.4_Client.Release\TestResults\test.trx"
+            //};
+
+            //Console.WriteLine(args[0]);
+            //Console.WriteLine(args[1]);
+
             if(args.Length == 0
                 || args.Contains("/h")
                 || args.Contains("/help"))
@@ -115,7 +124,7 @@ OPTIONAL PARAMETERS:
                 || !outputParam.EndsWith(".trx"))
                 return "Error: /output parameter is in the correct format. Expected /output:<file name | directory and file name>. Execute /help for more information";
 
-            return splitOutput[1]; 
+            return outputParam.Substring(8, outputParam.Length - 8); 
         }
 
         private static List<string> ResolveTrxFilePaths(string trxParams, bool recursive)
