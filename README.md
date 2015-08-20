@@ -38,4 +38,4 @@ This parameter will accept one of the following:
 
 #### /r - recursive search in directories. 
 - When there is a directory in /trx param (ex: /trx:c:\TestResuts), and this parameter is passed, the rearch for trx files will be recursive
-<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**example:** /trx:c:\TestResults,c:\TestResults1\testResults2.trx /r /output:combinedTestResults.trx
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**example:** /trx:c:\TestResults,c:\TestResults1\testResults2.trx **/r** /output:combinedTestResults.trx
