@@ -11,14 +11,9 @@ namespace TRX_Merger
     {
         public static int Main(string[] args)
         {
-            //args = new string[]
-            //{
-            //    @"/trx:C:\Program Files (x86)\Go Agent\pipelines\v7.4_Client.Release\TestResults",
-            //    @"/output:C:\Program Files (x86)\Go Agent\pipelines\v7.4_Client.Release\TestResults\test.trx"
-            //};
-
-            //Console.WriteLine(args[0]);
-            //Console.WriteLine(args[1]);
+            
+            Console.WriteLine(args[0]);
+            Console.WriteLine(args[1]);
 
             if(args.Length == 0
                 || args.Contains("/h")
