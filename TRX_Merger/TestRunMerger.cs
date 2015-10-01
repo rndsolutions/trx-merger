@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using TRX_Merger.ObjectModel;
+using TRX_Merger.TrxModel;
 using TRX_Merger.Utilities;
 
 namespace TRX_Merger
@@ -11,7 +11,7 @@ namespace TRX_Merger
     public static class TestRunMerger
     {
 
-        public static void MergeTRXsAndSave(List<string> trxFiles, string outputFile)
+        public static TestRun MergeTRXsAndSave(List<string> trxFiles, string outputFile)
         {
             Console.WriteLine("Deserializing trx files:");
             List<TestRun> runs = new List<TestRun>();
@@ -29,7 +29,9 @@ namespace TRX_Merger
 
             Console.WriteLine("Operation completed:");
             Console.WriteLine("\tCombined trx files: " + trxFiles.Count);
-            Console.WriteLine("\tResult trx file: " + savedFile); 
+            Console.WriteLine("\tResult trx file: " + savedFile);
+
+            return combinedTestRun;
         }
 
         private static TestRun MergeTestRuns(List<TestRun> testRuns)

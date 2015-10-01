@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-using TRX_Merger.ObjectModel;
+using TRX_Merger.TrxModel;
 
 namespace TRX_Merger.Utilities
 {
@@ -119,8 +119,7 @@ namespace TRX_Merger.Utilities
 
             using (Stream trxStream = new FileStream(trxPath, FileMode.Open, FileAccess.Read))
             {
-                XDocument doc = XDocument.Load(trxStream);
-
+                XDocument doc = XDocument.Load(trxStream); 
                 var run = doc.Root;
 
                 testRun.Id = run.Attribute("id").Value;
