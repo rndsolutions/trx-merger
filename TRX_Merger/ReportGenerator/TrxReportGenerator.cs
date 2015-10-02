@@ -22,8 +22,9 @@ namespace TRX_Merger.ReportGenerator
         }
 
         public static void GenerateReport(TestRun run, string outputFile, string screenshotLocation)
-        { 
-            string template = File.ReadAllText("../../ReportGenerator/trx_report_template.html");
+        {
+            Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
+            string template = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ReportGenerator/trx_report_template.html"));
 
             string result = Engine.Razor.RunCompile(
                 template, 
@@ -32,6 +33,12 @@ namespace TRX_Merger.ReportGenerator
                 new TestRunReport(run));
 
             //TODO: Implement screenshot logic here!
+
+            if (File.Exists(outputFile))
+            {
+                Console.WriteLine("Deleting: " + outputFile);
+                File.Delete(outputFile);
+            }
            
             File.WriteAllText(outputFile, result); 
         }

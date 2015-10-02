@@ -104,6 +104,9 @@ namespace TRX_Merger.Utilities
 
             doc.Root.SetDefaultXmlNamespace("http://microsoft.com/schemas/VisualStudio/TeamTest/2010");
 
+            if (File.Exists(targetPath))
+                File.Delete(targetPath);
+
             doc.Save(targetPath);
 
             var savedFileInfo = new FileInfo(targetPath);

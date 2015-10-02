@@ -14,12 +14,7 @@ namespace TRX_Merger
     {
         public static int Main(string[] args)
         {
-            args = new string[]
-            {
-                @"/trx:C:\Users\Krasi\Desktop\",
-                @"/output:C:\Users\Krasi\Desktop\report.trx",
-                @"/report:C:\Users\Krasi\Desktop\report.html"
-            };
+            
 
             if(args.Length == 0
                 || args.Contains("/h")
@@ -99,6 +94,9 @@ namespace TRX_Merger
                     return 1;
                 }
 
+                if (trxFiles.Contains(outputParam)) 
+                    trxFiles.Remove(outputParam);
+                  
                 try
                 {
                     var combinedTestRun = TestRunMerger.MergeTRXsAndSave(trxFiles, outputParam);
