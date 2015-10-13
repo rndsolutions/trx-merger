@@ -398,7 +398,7 @@
             if(obj.Result.Output.ErrorInfo != undefined){
                 document.getElementById("errorDetails").style.display = "";
 
-                if(obj.ErrorMessageRows != undefined){
+                if(obj.ErrorMessageRows != null){
                     document.getElementById("detailsErrorMessage").style.display = "";
 
                     var numberOfListItems = obj.ErrorMessageRows.length;
@@ -415,7 +415,7 @@
                     document.getElementById("detailsErrorMessage").style.display = "none";
                 }
 
-                if(obj.ErrorStackTraceRows != undefined){
+                if(obj.ErrorStackTraceRows != null){
                     document.getElementById("detailsStackTrace").style.display = "";
 
                     var numberOfListItems = obj.ErrorStackTraceRows.length;
@@ -446,7 +446,7 @@
             //Standard Output
             var detailsStdOutContent = "";
             document.getElementById("detailsStdOut").innerHTML = "";
-            if(obj.StdOutRows == undefined)
+            if(obj.StdOutRows == null && obj.CucumberStdOut != null)
             {
                 var numberOfListItems = obj.CucumberStdOut.length;
                 for (var i = 0; i < numberOfListItems; i++) {
@@ -469,6 +469,11 @@
                     document.getElementById("detailsStdOut").appendChild(row)
                 }
             }
+            
+            if(obj.StdOutRows != null) {
+
+            }
+                
 
 
 
