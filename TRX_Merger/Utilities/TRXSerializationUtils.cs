@@ -324,7 +324,7 @@ namespace TRX_Merger.Utilities
                 result.Add(new UnitTestResult
                 {
                     ComputerName = computerName,
-                    Duration = duration,
+                    Duration = string.IsNullOrEmpty(duration) ? "0:0:0" : duration,
                     EndTime = endTime,
                     ExecutionId = executionId,
                     Outcome = outcome,
