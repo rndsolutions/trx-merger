@@ -13,105 +13,118 @@ namespace TRX_Merger.Utilities
     {
         private static string ns = "{http://microsoft.com/schemas/VisualStudio/TeamTest/2010}";
 
+
         #region Serializers
         internal static string SerializeAndSaveTestRun(TestRun testRun, string targetPath)
         {
-            XNamespace xmlns = "http://microsoft.com/schemas/VisualStudio/TeamTest/2010";
-            XDocument doc =
-                new XDocument(
-                  new XElement("TestRun",
-                        new XAttribute("id", testRun.Id),
-                        new XAttribute("name", testRun.Name),
-                        new XAttribute("runUser", testRun.RunUser),
-                        new XElement("Times",
-                            new XAttribute("creation", testRun.Times.Creation),
-                            new XAttribute("queuing", testRun.Times.Queuing),
-                            new XAttribute("start", testRun.Times.Start),
-                            new XAttribute("finish", testRun.Times.Finish)),
-                        new XElement("Results",
-                            testRun.Results.Select(
-                                utr =>
-                                    new XElement("UnitTestResult",
-                                        new XAttribute("computerName", utr.ComputerName),
-                                        new XAttribute("duration", utr.Duration),
-                                        new XAttribute("endTime", utr.EndTime),
-                                        new XAttribute("executionId", utr.ExecutionId),
-                                        new XAttribute("outcome", utr.Outcome),
-                                        new XAttribute("startTime", utr.StartTime),
-                                        new XAttribute("testId", utr.TestId),
-                                        new XAttribute("testListId", utr.TestListId),
-                                        new XAttribute("testName", utr.TestName),
-                                        new XAttribute("testType", utr.TestType),
-                                        new XElement("Output",
-                                             utr.Output.StdOut == null ? null : new XElement("StdOut", utr.Output.StdOut),
-                                             utr.Output.ErrorInfo == null ? null :
-                                             new XElement("ErrorInfo",
-                                                  utr.Output.ErrorInfo.Message == null ? null : new XElement("Message", utr.Output.ErrorInfo.Message),
-                                                  utr.Output.ErrorInfo.StackTrace == null ? null : new XElement("StackTrace", utr.Output.ErrorInfo.StackTrace)
-                                                  ))))),
-                      new XElement("TestDefinitions",
-                           testRun.TestDefinitions.Select(
-                                td => new XElement("UnitTest",
-                                         new XAttribute("id", td.Id),
-                                         new XAttribute("name", td.Name),
-                                         new XAttribute("storage", td.Storage),
-                                         new XElement("Execution",
-                                            new XAttribute("id", td.Execution.Id)),
-                                         new XElement("TestMethod",
-                                            new XAttribute("adapterTypeName", td.TestMethod.AdapterTypeName),
-                                            new XAttribute("className", td.TestMethod.ClassName),
-                                            new XAttribute("codeBase", td.TestMethod.CodeBase),
-                                            new XAttribute("name", td.TestMethod.Name))))),
-                        new XElement("TestEntries",
-                             testRun.TestEntries.Select(
-                                te => new XElement("TestEntry",
-                                          new XAttribute("testId", te.TestId),
-                                          new XAttribute("executionId", te.ExecutionId),
-                                          new XAttribute("testListId", te.TestListId)))),
-                        new XElement("TestLists",
-                            testRun.TestLists.Distinct().Select(
-                                 tl => new XElement("TestList",
-                                     new XAttribute("name", tl.Name),
-                                     new XAttribute("id", tl.Id)))),
-                        new XElement("ResultSummary",
-                            new XAttribute("outcome", testRun.ResultSummary.Outcome),
-                            new XElement("Counters",
-                                new XAttribute("aborted", testRun.ResultSummary.Counters.Aborted),
-                                new XAttribute("completed", testRun.ResultSummary.Counters.Completed),
-                                new XAttribute("disconnected", testRun.ResultSummary.Counters.Disconnected),
-                                new XAttribute("executed", testRun.ResultSummary.Counters.Еxecuted),
-                                new XAttribute("failed", testRun.ResultSummary.Counters.Failed),
-                                new XAttribute("inconclusive", testRun.ResultSummary.Counters.Inconclusive),
-                                new XAttribute("inProgress", testRun.ResultSummary.Counters.InProgress),
-                                new XAttribute("notExecuted", testRun.ResultSummary.Counters.NotExecuted),
-                                new XAttribute("notRunnable", testRun.ResultSummary.Counters.NotRunnable),
-                                new XAttribute("passed", testRun.ResultSummary.Counters.Passed),
-                                new XAttribute("passedButRunAborted", testRun.ResultSummary.Counters.PassedButRunAborted),
-                                new XAttribute("pending", testRun.ResultSummary.Counters.Pending),
-                                new XAttribute("timeout", testRun.ResultSummary.Counters.Timeout),
-                                new XAttribute("total", testRun.ResultSummary.Counters.Total),
-                                new XAttribute("warning", testRun.ResultSummary.Counters.Warning)),
-                            new XElement("RunInfos",
-                                testRun.ResultSummary.RunInfos.Select(
-                                    ri => new XElement("RunInfo",
-                                        new XAttribute("computerName", ri.ComputerName),
-                                        new XAttribute("outcome", ri.Outcome),
-                                        new XAttribute("timestamp", ri.Timestamp),
-                                        new XElement("Text", ri.Text)))))
-                             )
-                );
 
+            try
+            {
 
-            doc.Root.SetDefaultXmlNamespace("http://microsoft.com/schemas/VisualStudio/TeamTest/2010");
+                Console.WriteLine("Started serializeAndSaveTestRun");
+                XNamespace xmlns = "http://microsoft.com/schemas/VisualStudio/TeamTest/2010";
+                XDocument doc =
+                    new XDocument(
+                      new XElement("TestRun",
+                            new XAttribute("id", testRun.Id),
+                            new XAttribute("name", testRun.Name),
+                            new XAttribute("runUser", testRun.RunUser),
+                            new XElement("Times",
+                                new XAttribute("creation", testRun.Times.Creation),
+                                new XAttribute("queuing", testRun.Times.Queuing),
+                                new XAttribute("start", testRun.Times.Start),
+                                new XAttribute("finish", testRun.Times.Finish)),
+                            new XElement("Results",
+                                testRun.Results.Select(
+                                    utr =>
+                                        new XElement("UnitTestResult",
+                                            new XAttribute("computerName", utr.ComputerName),
+                                            new XAttribute("duration", utr.Duration),
+                                            new XAttribute("endTime", utr.EndTime),
+                                            new XAttribute("executionId", utr.ExecutionId),
+                                            new XAttribute("outcome", utr.Outcome),
+                                            new XAttribute("startTime", utr.StartTime),
+                                            new XAttribute("testId", utr.TestId),
+                                            new XAttribute("testListId", utr.TestListId),
+                                            new XAttribute("testName", utr.TestName),
+                                            new XAttribute("testType", utr.TestType),
+                                            new XElement("Output",
+                                                 utr.Output.StdOut == null ? null : new XElement("StdOut", utr.Output.StdOut),
+                                                 utr.Output.ErrorInfo == null ? null :
+                                                 new XElement("ErrorInfo",
+                                                      utr.Output.ErrorInfo.Message == null ? null : new XElement("Message", utr.Output.ErrorInfo.Message),
+                                                      utr.Output.ErrorInfo.StackTrace == null ? null : new XElement("StackTrace", utr.Output.ErrorInfo.StackTrace)
+                                                      ))))),
+                          new XElement("TestDefinitions",
+                               testRun.TestDefinitions.Select(
+                                    td => new XElement("UnitTest",
+                                             new XAttribute("id", td.Id),
+                                             new XAttribute("name", td.Name),
+                                             new XAttribute("storage", td.Storage == null ? "" : td.Storage),
+                                             new XElement("Execution",
+                                                new XAttribute("id", td.Execution.Id)),
+                                             new XElement("TestMethod",
+                                                new XAttribute("adapterTypeName", td.TestMethod.AdapterTypeName == null ? "" : td.Storage),
+                                                new XAttribute("className", td.TestMethod.ClassName),
+                                                new XAttribute("codeBase", td.TestMethod.CodeBase),
+                                                new XAttribute("name", td.TestMethod.Name))))),
+                            new XElement("TestEntries",
+                                 testRun.TestEntries.Select(
+                                    te => new XElement("TestEntry",
+                                              new XAttribute("testId", te.TestId),
+                                              new XAttribute("executionId", te.ExecutionId),
+                                              new XAttribute("testListId", te.TestListId)))),
+                            new XElement("TestLists",
+                                testRun.TestLists.Distinct().Select(
+                                     tl => new XElement("TestList",
+                                         new XAttribute("name", tl.Name),
+                                         new XAttribute("id", tl.Id)))),
+                            new XElement("ResultSummary",
+                                new XAttribute("outcome", testRun.ResultSummary.Outcome),
+                                new XElement("Counters",
+                                    new XAttribute("aborted", testRun.ResultSummary.Counters.Aborted),
+                                    new XAttribute("completed", testRun.ResultSummary.Counters.Completed),
+                                    new XAttribute("disconnected", testRun.ResultSummary.Counters.Disconnected),
+                                    new XAttribute("executed", testRun.ResultSummary.Counters.Еxecuted),
+                                    new XAttribute("failed", testRun.ResultSummary.Counters.Failed),
+                                    new XAttribute("inconclusive", testRun.ResultSummary.Counters.Inconclusive),
+                                    new XAttribute("inProgress", testRun.ResultSummary.Counters.InProgress),
+                                    new XAttribute("notExecuted", testRun.ResultSummary.Counters.NotExecuted),
+                                    new XAttribute("notRunnable", testRun.ResultSummary.Counters.NotRunnable),
+                                    new XAttribute("passed", testRun.ResultSummary.Counters.Passed),
+                                    new XAttribute("passedButRunAborted", testRun.ResultSummary.Counters.PassedButRunAborted),
+                                    new XAttribute("pending", testRun.ResultSummary.Counters.Pending),
+                                    new XAttribute("timeout", testRun.ResultSummary.Counters.Timeout),
+                                    new XAttribute("total", testRun.ResultSummary.Counters.Total),
+                                    new XAttribute("warning", testRun.ResultSummary.Counters.Warning)),
+                                new XElement("RunInfos",
+                                    testRun.ResultSummary.RunInfos.Select(
+                                        ri => new XElement("RunInfo",
+                                            new XAttribute("computerName", ri.ComputerName),
+                                            new XAttribute("outcome", ri.Outcome),
+                                            new XAttribute("timestamp", ri.Timestamp),
+                                            new XElement("Text", ri.Text)))))
+                                 )
+                    );
 
-            if (File.Exists(targetPath))
-                File.Delete(targetPath);
+                Console.WriteLine("Finished parsing xml properties");
+                doc.Root.SetDefaultXmlNamespace("http://microsoft.com/schemas/VisualStudio/TeamTest/2010");
 
-            doc.Save(targetPath);
+                if (File.Exists(targetPath))
+                    File.Delete(targetPath);
 
-            var savedFileInfo = new FileInfo(targetPath);
+                doc.Save(targetPath);
 
-            return savedFileInfo.FullName;
+                var savedFileInfo = new FileInfo(targetPath);
+
+                return savedFileInfo.FullName;
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message + "/n" + ex.StackTrace);
+                throw ex;
+            }
         }
         #endregion
 
@@ -122,7 +135,7 @@ namespace TRX_Merger.Utilities
 
             using (Stream trxStream = new FileStream(trxPath, FileMode.Open, FileAccess.Read))
             {
-                XDocument doc = XDocument.Load(trxStream); 
+                XDocument doc = XDocument.Load(trxStream);
                 var run = doc.Root;
 
                 testRun.Id = run.Attribute("id").Value;
@@ -372,8 +385,8 @@ namespace TRX_Merger.Utilities
                 Queuing = xElement.Attribute("queuing").Value,
                 Start = xElement.Attribute("start").Value,
             };
-        } 
-        #endregion 
+        }
+        #endregion
 
     }
 }
