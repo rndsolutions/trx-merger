@@ -15,7 +15,7 @@ namespace TRX_Merger
         public static int Main(string[] args)
         {
 
-            args = new string[2] { "/trx:Threewaycall.trx,Twowaycallonauto.aa.trx", "/output:res.trx" };
+            //args = new string[2] { "/trx:Threewaycall.trx,Twowaycallonauto.aa.trx", "/output:res.trx" };
 
 
             if (args.Length == 0
