@@ -171,7 +171,7 @@ PARAMETERS:
 
             if (splitOutput.Length == 1
                 || !outputParam.EndsWith(".trx"))
-                return "Error: /output parameter is in the correct format. Expected /output:<file name | directory and file name>. Execute /help for more information";
+                return "Error: /output parameter is in the incorrect format. Expected /output:<file name | directory and file name>. Execute /help for more information";
 
             return outputParam.Substring(8, outputParam.Length - 8); 
         }
