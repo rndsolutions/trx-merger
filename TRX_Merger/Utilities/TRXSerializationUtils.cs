@@ -350,7 +350,7 @@ namespace TRX_Merger.Utilities
             return new ErrorInfo
             {
                 Message = err.Descendants(ns + "Message").FirstOrDefault().Value,
-                StackTrace = err.Descendants(ns + "StackTrace").FirstOrDefault().Value,
+                StackTrace = err.Descendants(ns + "StackTrace").FirstOrDefault()?.Value,
             };
         }
 
