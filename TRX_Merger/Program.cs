@@ -178,6 +178,9 @@ PARAMETERS:
 
         private static string ResolveReportLocation(string reportParam)
         {
+            if (string.IsNullOrEmpty(reportParam))
+                return null;
+
             var splitReport = reportParam.Split(new char[] { ':' });
 
             if (splitReport.Length == 1
