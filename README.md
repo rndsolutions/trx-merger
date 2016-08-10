@@ -1,6 +1,6 @@
 # Welcome to the TRX-Merger
 
-TRX-Merger is a command line tool that allows you to combine multiple trx files in a single trx file containing all the information from the trx files passed to it.
+TRX-Merger is a command line tool that allows you to combine multiple trx files in a single trx file containing all the information from the trx files passed to it and also to generate an html report from the trx.
 
 ### Example:
 
