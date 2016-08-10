@@ -36,6 +36,10 @@ This parameter will accept one of the following:
 
 ### OPTIONAL PARAMETERS:
 
+#### /report - generates a html report from a trx file. REQUIRED if one trx is specified in /trx parameter and OPTIONAL otherwise.
+- If one trx is passed to the utility, the report is for it, otherwise, the report is generated for the /output result. 
+<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**example:** /report:c:\Tests\report.html
+
 #### /r - recursive search in directories. 
 - When there is a directory in /trx param (ex: /trx:c:\TestResuts), and this parameter is passed, the rearch for trx files will be recursive
 <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**example:** /trx:c:\TestResults,c:\TestResults1\testResults2.trx **/r** /output:combinedTestResults.trx
