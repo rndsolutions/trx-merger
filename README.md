@@ -8,7 +8,7 @@ You can start the Command-Line navigate to the folder where the TRX_Merger.exe i
 
 >TRX_Merger.exe /trx:[trx file or directory 1],[trx file or directory 2],..,[trx file or directory N] /output:[output file path and name]
 
-![](https://cloud.githubusercontent.com/assets/11598270/9352882/36e28792-466d-11e5-9f31-49c88978848a.png)
+![](https://cloud.githubusercontent.com/assets/11598270/17554580/3aa00394-5f14-11e6-88cc-a4aa1eb3b804.png)
 
 
 
