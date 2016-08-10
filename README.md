@@ -10,7 +10,9 @@ You can start the Command-Line navigate to the folder where the TRX_Merger.exe i
 
 ![](https://cloud.githubusercontent.com/assets/11598270/17554580/3aa00394-5f14-11e6-88cc-a4aa1eb3b804.png)
 
+![](https://cloud.githubusercontent.com/assets/11598270/17554581/3aa3bc5a-5f14-11e6-9c4d-d97fd81845c8.PNG)
 
+![](https://cloud.githubusercontent.com/assets/11598270/17554582/3aa749f6-5f14-11e6-8099-620a724ff19c.png)
 
 ### REQUIRED PARAMETERS:
 
