@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
 using TRX_Merger.TrxModel;
 
@@ -76,7 +73,7 @@ namespace TRX_Merger.Utilities
                         new XElement("ResultSummary",
                             new XAttribute("outcome", testRun.ResultSummary.Outcome),
                             new XElement("Counters",
-                                   new XAttribute("aborted", testRun.ResultSummary.Counters.Aborted),
+                                new XAttribute("aborted", testRun.ResultSummary.Counters.Aborted),
                                 new XAttribute("completed", testRun.ResultSummary.Counters.Completed),
                                 new XAttribute("disconnected", testRun.ResultSummary.Counters.Disconnected),
                                 new XAttribute("executed", testRun.ResultSummary.Counters.Еxecuted),
