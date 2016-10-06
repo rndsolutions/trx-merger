@@ -460,7 +460,7 @@
 
                     var cell = document.createElement("td"); 
                     if(i % 2 != 0) {
-                        cell.innerHTML = itemData.Key;
+                        cell.innerHTML = itemData.Key.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
                         row.appendChild(cell);
                     } else {
                         var b = document.createElement("b");                        
