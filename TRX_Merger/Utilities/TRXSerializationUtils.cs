@@ -41,6 +41,7 @@ namespace TRX_Merger.Utilities
                                         new XAttribute("testType", utr.TestType),
                                         new XElement("Output",
                                              utr.Output.StdOut == null ? null : new XElement("StdOut", utr.Output.StdOut),
+                                             utr.Output.StdErr == null ? null : new XElement("StdErr", utr.Output.StdErr),
                                              utr.Output.ErrorInfo == null ? null :
                                              new XElement("ErrorInfo",
                                                   utr.Output.ErrorInfo.Message == null ? null : new XElement("Message", utr.Output.ErrorInfo.Message),
@@ -119,7 +120,7 @@ namespace TRX_Merger.Utilities
 
             using (Stream trxStream = new FileStream(trxPath, FileMode.Open, FileAccess.Read))
             {
-                XDocument doc = XDocument.Load(trxStream); 
+                XDocument doc = XDocument.Load(trxStream);
                 var run = doc.Root;
 
                 testRun.Id = run.Attribute("id").Value;
@@ -316,6 +317,7 @@ namespace TRX_Merger.Utilities
                 var Output = new UnitTestResultOutput
                 {
                     StdOut = DeserializeStdOut(res),
+                    StdErr = DeserializeStdErr(res),
                     ErrorInfo = DeserializeErrorInfo(res),
                 };
                 result.Add(new UnitTestResult
@@ -360,6 +362,15 @@ namespace TRX_Merger.Utilities
             return unitTestResult.Value;
         }
 
+        private static string DeserializeStdErr(XElement unitTestResult)
+        {
+            var stdErr = unitTestResult.Descendants(ns + "StdErr").FirstOrDefault();
+            if (stdErr == null)
+                return null;
+
+            return stdErr.Value;
+        }
+
         private static Times DeserializeTimes(XElement xElement)
         {
             return new Times
@@ -369,8 +380,8 @@ namespace TRX_Merger.Utilities
                 Queuing = xElement.Attribute("queuing").Value,
                 Start = xElement.Attribute("start").Value,
             };
-        } 
-        #endregion 
+        }
+        #endregion
 
     }
 }

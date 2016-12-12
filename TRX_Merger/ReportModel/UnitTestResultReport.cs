@@ -30,17 +30,16 @@ namespace TRX_Merger.ReportModel
                         }
 
 
-                        if (rows[i].StartsWith("-> error"))
+                        else if (rows[i].StartsWith("-> error"))
                         {
                             cucumberStdOut.Add(new KeyValuePair<string, string>(rows[i - 1], "danger"));
                             cucumberStdOut.Add(new KeyValuePair<string, string>(rows[i], "danger"));
                         }
-                        if (rows[i].StartsWith("-> skipped"))
+                        else if (rows[i].StartsWith("-> skipped"))
                         {
                             cucumberStdOut.Add(new KeyValuePair<string, string>(rows[i - 1], "warning"));
                             cucumberStdOut.Add(new KeyValuePair<string, string>(rows[i], "warning"));
                         }
-
                     }
                 }
                 else
@@ -50,6 +49,10 @@ namespace TRX_Merger.ReportModel
                 }
             }
 
+            if (!string.IsNullOrEmpty(Result.Output.StdErr))
+            {
+                StdErrRows = Result.Output.StdErr.Split(new char[] { '\n' }).ToList();
+            }
 
             if (result.Output.ErrorInfo != null)
             {
@@ -95,6 +98,8 @@ namespace TRX_Merger.ReportModel
 
         public List<string> StdOutRows { get; set; }
 
+        public List<string> StdErrRows { get; set; }
+
         public List<string> ErrorMessageRows { get; set; }
         public List<string> ErrorStackTraceRows { get; set; }
 
@@ -102,11 +107,11 @@ namespace TRX_Merger.ReportModel
         {
             return System.Web.Helpers.Json.Encode(this);
         }
-          
+
         public string FormattedStartTime
-        { 
+        {
             get
-            { 
+            {
                 return DateTime.Parse(Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss");
             }
         }

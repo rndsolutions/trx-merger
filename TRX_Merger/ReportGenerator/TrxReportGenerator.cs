@@ -14,21 +14,24 @@ namespace TRX_Merger.ReportGenerator
 {
     public static class TrxReportGenerator
     {
-        public static void GenerateReport(string trxFilePath, string outputFile, string screenshotLocation)
+        public static void GenerateReport(string trxFilePath, string outputFile, string screenshotLocation, string reportTitle)
         {
             var testRun = TRXSerializationUtils.DeserializeTRX(trxFilePath);
 
-            GenerateReport(testRun, outputFile, screenshotLocation);
+            GenerateReport(testRun, outputFile, screenshotLocation, reportTitle);
         }
 
-        public static void GenerateReport(TestRun run, string outputFile, string screenshotLocation)
+        public static void GenerateReport(TestRun run, string outputFile, string screenshotLocation, string reportTitle)
         {
+            if (!string.IsNullOrEmpty(reportTitle))
+                run.Name = reportTitle;
+
             Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
             string template = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ReportGenerator/trx_report_template.html"));
 
             string result = Engine.Razor.RunCompile(
-                template, 
-                "rawTemplate", 
+                template,
+                "rawTemplate",
                 null,
                 new TestRunReport(run));
 
@@ -39,8 +42,8 @@ namespace TRX_Merger.ReportGenerator
                 Console.WriteLine("Deleting: " + outputFile);
                 File.Delete(outputFile);
             }
-           
-            File.WriteAllText(outputFile, result); 
+
+            File.WriteAllText(outputFile, result);
         }
     }
 }

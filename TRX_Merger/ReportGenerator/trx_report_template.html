@@ -4,50 +4,65 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@Model.Run.Name</title>
- 
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css" rel="stylesheet"> 
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.4/cerulean/bootstrap.min.css" rel="stylesheet">
     <style>
         .modal-dialog {
-  width: 90%;
-  height: 90%;
-  padding: 0;
-}
+            width: 90%;
+            height: 90%;
+            padding: 0;
+        }
 
-.modal-content {
-  height: 100%;
-  border-radius: 0;
-} 
-.ex{
-	white-space: pre;
-}
+        .modal-content {
+            height: 100%;
+            border-radius: 0;
+        }
 
-.nowrap {
-        white-space:nowrap;
-    }
+        .ex {
+            white-space: pre;
+        }
 
-.borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
-    border: none;
-    padding: 2px;
-}
+        .nowrap {
+            white-space: nowrap;
+        }
 
-.chart-legend li span{
-    display: inline-block;
-    width: 12px;
-    height: 12px;
-    margin-right: 5px;
-}
+        .borderless tbody tr td, .borderless tbody tr th, .borderless thead tr th {
+            border: none;
+            padding: 2px;
+        }
 
-.chart-legend ul {
-    list-style-type: none;
-    font-weight: bold;
-}
+        .chart-legend li span {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            margin-right: 5px;
+        }
 
-.doughnut-legend {
-    padding : 0px;
-}
+        .chart-legend ul {
+            list-style-type: none;
+            font-weight: bold;
+        }
 
+        .doughnut-legend {
+            padding: 0px;
+        }
     </style>
+    @{
+      var resultBasedColor = "";
+      var resultBasedPanel= "";
+      var resultBasedDisplay= "";
 
+      if(@Model.Run.ResultSummary.Outcome.Equals("Completed", StringComparison.CurrentCultureIgnoreCase)){
+        resultBasedColor = "#73a839";
+        resultBasedPanel = "panel panel-success";
+        resultBasedDisplay = "none";
+      }
+      else{
+        resultBasedColor = "red";
+        resultBasedPanel = "panel panel-danger";
+        resultBasedDisplay = "block";
+      }
+    }
     <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
@@ -65,9 +80,9 @@
         </div>
     </div>
 
-    <div class="container" style="margin-top: 60px"> 
+    <div class="container" style="margin-top: 60px">
         <!-- Summary -->
-        <div class="panel panel-danger">
+        <div class="@resultBasedPanel">
             <div class="panel-heading">
                 <div class="row">
                     <div class="col-lg-10">
@@ -79,7 +94,7 @@
                 </div>
             </div>
 
-            
+
             <div id="runSummary" class="panel-body">
                 <div class="col-md-4">
                     <div class="form-group" style="margin-bottom:0px">
@@ -89,22 +104,22 @@
 
                     <div class="form-group" style="margin-bottom:0px">
                         <h4 style="margin:4px">Started At</h4>
-                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger" >@DateTime.Parse(Model.Run.Times.Start)</label>
+                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger">@DateTime.Parse(Model.Run.Times.Start)</label>
                     </div>
 
                     <div class="form-group" style="margin-bottom:0px">
                         <h4 style="margin:4px">Finished At</h4>
-                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger" >@DateTime.Parse(Model.Run.Times.Finish)</label>
+                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger">@DateTime.Parse(Model.Run.Times.Finish)</label>
                     </div>
 
                     <div class="form-group" style="margin-bottom:0px">
                         <h4 style="margin:4px">Duration</h4>
-                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger" >@Model.Run.Duration</label>
+                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger">@Model.Run.Duration</label>
                     </div>
 
                     <div class="form-group" style="margin-bottom:0px">
                         <h4 style="margin:4px">Test Run Outcome</h4>
-                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold;color:red; font-size: larger">@Model.Run.ResultSummary.Outcome</label>
+                        <label class="form-control" style="border: 0px; margin-bottom:0px; font-weight:bold;color:@resultBasedColor; font-size: larger">@Model.Run.ResultSummary.Outcome</label>
                     </div>
                 </div>
 
@@ -125,7 +140,7 @@
                             </div>
                             <div class="row" style="text-align: center">
                                 <canvas id="failed-chart" width="150" height="150"></canvas>
-                                <h3 style="margin-top: -93px" >@Model.Run.ResultSummary.Counters.Failed</h3>
+                                <h3 style="margin-top: -93px">@Model.Run.ResultSummary.Counters.Failed</h3>
                             </div>
                         </div>
                         <div class="col-md-3">
@@ -151,19 +166,18 @@
                         <h1>Total Tests: <b>@Model.Run.ResultSummary.Counters.Total</b></h1>
                     </div>
                 </div>
-            </div> 
-        </div> 
+            </div>
+        </div>
         <!--  End of Summary -->
-
         <!--      All Failed Tests    -->
-        <div class="panel panel-danger">
+        <div class="panel panel-danger" style="display: @resultBasedDisplay">
             <div class="panel-heading" style="border-radius:0px">
                 <div class="row">
                     <div class="col-lg-11">
                         <h3 class="panel-title">All Failed Tests</h3>
                     </div>
                     <div class="col-lg-1" style="text-align: center;cursor: pointer" onclick="collapseExpandAllFailingClick(AllFailing)">
-                        <b id="expandCollapseAllFailing"  style="font-size: larger">+</b>
+                        <b id="expandCollapseAllFailing" style="font-size: larger">+</b>
                     </div>
                 </div>
             </div>
@@ -183,97 +197,95 @@
                         @* Needs to use UnitTestResultReport *@
                         @foreach (var test in Model.AllFailedTests)
                         {
-                            <tr class="danger">
-                                <td id="@String.Format("err{0}",test.TestId)" style="display:none">@test.AsJson()</td>
-                                <td>@test.Result.TestName</td>
-                                <td>@DateTime.Parse(test.Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss")</td>
-                                <td>@TimeSpan.Parse(test.Result.Duration).TotalSeconds.ToString("n2") sec.</td>
-                                <td>FAILED</td>
-                                <td><a style="cursor: pointer" onclick="showTestDetails(@String.Format("err{0}",test.TestId))">Details</a></td>
-                                 
-                            </tr>
+                        <tr class="danger">
+                            <td id="@String.Format("err{0}",test.TestId)" style="display:none">@test.AsJson()</td>
+                            <td>@test.Result.TestName</td>
+                            <td>@DateTime.Parse(test.Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss")</td>
+                            <td>@TimeSpan.Parse(test.Result.Duration).TotalSeconds.ToString("n2") sec.</td>
+                            <td>FAILED</td>
+                            <td><a style="cursor: pointer" onclick="showTestDetails(@String.Format("err{0}",test.TestId))">Details</a></td>
+
+                        </tr>
                         }
                     </tbody>
                 </table>
             </div>
         </div>
         <!--  End of All Failed Tests -->
-
-        <!-- Report by TestClass --> 
+        <!-- Report by TestClass -->
         @foreach (var testClassEntry in Model.TestClassReports)
         {
-            <div class="panel panel-primary">
-                <div class="panel-heading" style="border-radius: 0px">
-                    <div class="row">
-                        <div class="col-lg-11">
-                            <h3 class="panel-title">@testClassEntry.Value.FriendlyTestClassName</h3>
-                        </div>
-                        <div class="col-lg-1" style="text-align: center;cursor: pointer" onclick="collapseExpandAllFailingClick(@testClassEntry.Value.FriendlyTestClassName)">
-                            <b id="@String.Format("expandCollapse{0}", testClassEntry.Value.FriendlyTestClassName)" style="font-size: larger">+</b>
-                        </div>
+        <div class="panel panel-primary">
+            <div class="panel-heading" style="border-radius: 0px">
+                <div class="row">
+                    <div class="col-lg-11">
+                        <h3 class="panel-title">@testClassEntry.Value.FriendlyTestClassName</h3>
+                    </div>
+                    <div class="col-lg-1" style="text-align: center;cursor: pointer" onclick="collapseExpandAllFailingClick(@testClassEntry.Value.FriendlyTestClassName)">
+                        <b id="@String.Format("expandCollapse{0}", testClassEntry.Value.FriendlyTestClassName)" style="font-size: larger">+</b>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div style="margin-top: 20px; min-height:250px">
+                    <div class="col-lg-7">
+                        <h4 style="margin:4px">Total Tests</h4>
+                        <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.Tests.Count</label><br />
+                        <h4 style="margin:4px">Duration</h4>
+                        <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.Duration</label><br />
+                        <h4 style="margin:4px">Class Name</h4>
+                        <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.TestClassName</label><br />
+                        <h4 style="margin:4px">TestClass Dll</h4>
+                        <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px; word-break: break-all">@testClassEntry.Value.Dll</label>
+
+
+                    </div>
+                    <div class="col-lg-3" style="text-align: right">
+                        <canvas id="@String.Format("chart{0}", testClassEntry.Value.FriendlyTestClassName)" width="210" height="210"></canvas>
+                    </div>
+                    <div class="col-lg-2" style="padding: 0px">
+                        <div id="@String.Format("legend{0}", testClassEntry.Value.FriendlyTestClassName)" class="chart-legend"></div>
                     </div>
                 </div>
 
-                <div>
-                    <div style="margin-top: 20px; min-height:250px">
-                        <div class="col-lg-7">
-                                <h4 style="margin:4px">Total Tests</h4>
-                                <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.Tests.Count</label><br />
-                                <h4 style="margin:4px">Duration</h4>
-                                <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.Duration</label><br />
-                                <h4 style="margin:4px">Class Name</h4> 
-                                <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.TestClassName</label><br />
-                                <h4 style="margin:4px">TestClass Dll</h4>
-                                <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; margin-left: 10px">@testClassEntry.Value.Dll</label> 
-                            
-                             
-                        </div>                    
-                        <div class="col-lg-3"  style="text-align: right">
-                            <canvas id="@String.Format("chart{0}", testClassEntry.Value.FriendlyTestClassName)" width="210" height="210"></canvas>                       
-                        </div>
-                        <div class="col-lg-2" style="padding: 0px">
-                                <div id="@String.Format("legend{0}", testClassEntry.Value.FriendlyTestClassName)" class="chart-legend"></div>
-                        </div>
-                    </div>
+                <div id="@testClassEntry.Value.FriendlyTestClassName" style="display: none">
+                    <table class="table table-striped table-hover ">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Start Time</th>
+                                <th>Duration</th>
+                                <th>Outcome</th>
+                                <th>Details</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var test in testClassEntry.Value.Tests)
+                            {
+                            string rowClass = test.Result.Outcome == "Passed" ? "success" : "danger";
 
-                    <div id="@testClassEntry.Value.FriendlyTestClassName" style="display: none"> 
-                        <table class="table table-striped table-hover ">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Start Time</th>
-                                    <th>Duration</th>
-                                    <th>Outcome</th>
-                                    <th>Details</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var test in testClassEntry.Value.Tests)
-                                {
-                                    string rowClass = test.Result.Outcome == "Passed" ? "success" : "danger";
-
-                                    <tr class="@rowClass">
-                                        <td id="@test.TestId" style="display:none">@test.AsJson()</td>
-                                        <td>@test.Result.TestName</td>
-                                        <td>@DateTime.Parse(test.Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss")</td>
-                                        <td>@TimeSpan.Parse(test.Result.Duration).TotalSeconds.ToString("n2") sec.</td>
-                                        <td>@test.Result.Outcome</td>
-                                        <td><a style="cursor: pointer" onclick="showTestDetails(@test.TestId)">Details</a></td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                </div>              
+                            <tr class="@rowClass">
+                                <td id="@test.TestId" style="display:none">@test.AsJson()</td>
+                                <td>@test.Result.TestName</td>
+                                <td>@DateTime.Parse(test.Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss")</td>
+                                <td>@TimeSpan.Parse(test.Result.Duration).TotalSeconds.ToString("n2") sec.</td>
+                                <td>@test.Result.Outcome</td>
+                                <td><a style="cursor: pointer" onclick="showTestDetails(@test.TestId)">Details</a></td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
             </div>
+        </div>
         }
-      
-        <!--  End of Report by TestClass -->
 
+        <!--  End of Report by TestClass -->
         <!-- Details Modal -->
-        <div id="testDetails" class="modal" >
+        <div id="testDetails" class="modal">
             <div class="modal-dialog">
-                <div id="detailsContent" class="modal-content panel-danger"> 
+                <div id="detailsContent" class="modal-content panel-danger">
                     <div class="modal-header panel-heading" style="border-top-left-radius:0px; border-top-right-radius:0px">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
                         <h4 class="modal-title" style="color:white" id="detailsHeader"></h4>
@@ -302,17 +314,17 @@
                                 <div class="col-lg-10">
                                     <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger" id="detailsComp"></label><br />
                                     <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger" id="detailsClass"></label><br />
-                                    <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger" id="detailsDll"></label>
+                                    <label style="border: 0px; margin-bottom:0px; font-weight:bold; font-size: larger; word-break: break-all" id="detailsDll"></label>
                                 </div>
-                            </div> 
+                            </div>
                         </div>
 
                         <div class="col-lg-12"
-                                id="detailsSeparator"
-                                style="height:2px; margin-top:10px"> 
+                             id="detailsSeparator"
+                             style="height:2px; margin-top:10px">
                         </div>
 
-                        <div >
+                        <div>
                             <div id="detailsParent" style="overflow: scroll" class="col-lg-12">
                                 <!--STD OUT -->
                                 <div>
@@ -324,8 +336,22 @@
                                                     <th>#</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="detailsStdOut"> 
-                                            </tbody>
+                                            <tbody id="detailsStdOut"></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <!--STD ERR -->
+                                <div id="rootStdErr">
+                                    <h4>Standard Error</h4>
+                                    <div>
+                                        <table class="table table-striped table-hover text-nowrap borderless">
+                                            <thead>
+                                                <tr style="display:none">
+                                                    <th>#</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="detailsStdErr"></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -363,8 +389,8 @@
 
                                 </div>
                             </div>
-                        </div> 
-                    </div> 
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -372,8 +398,14 @@
 
     <script>
         window.onresize = function(event) {
-            document.getElementById("detailsParent").style.height = ($("#detailsContent").height() - 190) + "px"; 
+            document.getElementById("detailsParent").style.height = ($("#detailsContent").height() - 190) + "px";
         };
+
+        function decodeEntities(encodedString) {
+            var textArea = document.createElement('textarea');
+            textArea.innerHTML = encodedString;
+            return textArea.value;
+        }
 
         function showTestDetails(detailsCell)
         {
@@ -381,12 +413,12 @@
             var obj = JSON.parse(detailsCell.innerHTML);
             if(obj.Result.Outcome == "Passed"){
                 document.getElementById("detailsContent").className = "modal-content panel-success";
-                document.getElementById("detailsSeparator").style.background = "green" 
+                document.getElementById("detailsSeparator").style.background = "green"
             } else {
                 document.getElementById("detailsContent").className = "modal-content panel-danger";
                 document.getElementById("detailsSeparator").style.background = "red"
             }
-            
+
             document.getElementById("detailsHeader").innerHTML = obj.Result.TestName + " : " +  obj.Result.Outcome;
             document.getElementById("detailsStart").innerHTML = obj.FormattedStartTime;
             document.getElementById("detailsEnd").innerHTML = obj.FormattedEndTime;
@@ -405,12 +437,18 @@
                     document.getElementById("detailsErrorMessage").style.display = "";
 
                     var numberOfListItems = obj.ErrorMessageRows.length;
-                 
+
                     for (var i = 0; i < numberOfListItems; i++) {
-                     
-                        var row = document.createElement("tr"); 
-                        var cell = document.createElement("td"); 
-                        cell.innerHTML = obj.ErrorMessageRows[i];
+
+                        var row = document.createElement("tr");
+                        var cell = document.createElement("td");
+
+                        if(obj.ErrorMessageRows[i].includes("http")){
+                            cell.innerHTML = decodeEntities(obj.ErrorMessageRows[i]);
+                        }
+                        else{
+                            cell.innerHTML = obj.ErrorMessageRows[i].replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                        }
                         row.appendChild(cell);
                         document.getElementById("detailsErrorMessageTable").appendChild(row)
                     }
@@ -422,11 +460,11 @@
                     document.getElementById("detailsStackTrace").style.display = "";
 
                     var numberOfListItems = obj.ErrorStackTraceRows.length;
-                 
+
                     for (var i = 0; i < numberOfListItems; i++) {
-                     
-                        var row = document.createElement("tr"); 
-                        var cell = document.createElement("td"); 
+
+                        var row = document.createElement("tr");
+                        var cell = document.createElement("td");
                         cell.innerHTML = obj.ErrorStackTraceRows[i];
                         row.appendChild(cell);
                         document.getElementById("detailsStackTraceTable").appendChild(row)
@@ -455,35 +493,80 @@
                 for (var i = 0; i < numberOfListItems; i++) {
                     var itemData = obj.CucumberStdOut[i];
 
-                    var row = document.createElement("tr"); 
+                    var row = document.createElement("tr");
                     row.className = itemData.Value;
 
-                    var cell = document.createElement("td"); 
+                    var cell = document.createElement("td");
+                    var innerHTML;
+                    if(itemData.Key.includes("http")){
+                        innerHTML = decodeEntities(itemData.Key);
+                    }
+                    else{
+                        innerHTML = itemData.Key.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    }
+
                     if(i % 2 != 0) {
-                        cell.innerHTML = itemData.Key.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;') ;
+                        cell.innerHTML = innerHTML;
                         row.appendChild(cell);
                     } else {
-                        var b = document.createElement("b");                        
-                        b.innerHTML = itemData.Key;
+                        var b = document.createElement("b");
+                        b.innerHTML = innerHTML;
                         cell.appendChild(b);
                         row.appendChild(cell);
                     }
-                   
+
                     document.getElementById("detailsStdOut").appendChild(row)
                 }
             }
-            
+
             if(obj.StdOutRows != null) {
 
             }
-                
 
+
+            //Standard Error
+            var detailsStdErrContent = "";
+            document.getElementById("detailsStdErr").innerHTML = "";
+            if(obj.StdErrRows != null)
+            {
+                var numberOfListItems = obj.StdErrRows.length;
+                for (var i = 0; i < numberOfListItems; i++) {
+                    var itemData = obj.StdErrRows[i];
+
+                    var row = document.createElement("tr");
+                    row.className = itemData;
+
+                    var cell = document.createElement("td");
+                    var innerHTML;
+                    if(itemData.includes("http")){
+                        innerHTML = decodeEntities(itemData);
+                    }
+                    else{
+                        innerHTML = itemData.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+                    }
+
+                    if(i % 2 != 0) {
+                        cell.innerHTML = innerHTML;
+                        row.appendChild(cell);
+                    } else {
+                        var b = document.createElement("b");
+                        b.innerHTML = innerHTML;
+                        cell.appendChild(b);
+                        row.appendChild(cell);
+                    }
+
+                    document.getElementById("detailsStdErr").appendChild(row);
+                }
+            }
+            else{
+                document.getElementById("rootStdErr").style.display = "none";
+            }
 
 
             setTimeout(function(){
-                document.getElementById("detailsParent").style.height = ($("#detailsContent").height() - 190) + "px"; 
+                document.getElementById("detailsParent").style.height = ($("#detailsContent").height() - 190) + "px";
             }, 100);
-          
+
             $('#testDetails').modal('show');
         }
 
@@ -498,7 +581,6 @@
                 item.style.display = "";
             }
         }
-         
 
         var failed = [
             {
@@ -528,7 +610,6 @@
             }
         ];
 
-
         var timeout = [
             {
                 value: @Model.Run.ResultSummary.Counters.Timeout,
@@ -544,7 +625,6 @@
             }
         ];
 
-
         var aborted = [
             {
                 value: @Model.Run.ResultSummary.Counters.Aborted,
@@ -559,6 +639,7 @@
                 label: ""
             }
         ];
+
         window.onload = function () {
             var passedChart = document.getElementById("passed-chart").getContext("2d");
             var failedChart = document.getElementById("failed-chart").getContext("2d");
@@ -581,11 +662,11 @@
                 {
                     showTooltips: false,
                 });
-            
+
             var chartsData = JSON.parse("@Model.TestClassReportsJson()".replace(/&quot;/g,'"'));
             for (var i = 0; i < chartsData.length; i++) {
 
-                var data = [  
+                var data = [
                     {
                         value:  chartsData[i].Failed,
                         color: "#FF7373",
@@ -609,11 +690,11 @@
                         color: "#FBD0AD",
                         highlight: "#FBD0AD",
                         label: "Aborted"
-                    }, 
-                ]; 
+                    },
+                ];
                 var chart = document.getElementById("chart" + chartsData[i].ClassName).getContext("2d");
                 var chartElem = new Chart(chart).Doughnut(data,
-                   {                    
+                   {
                        tooltipTemplate: "<%= value %>",
                        legendTemplate : "<ul class=\"<%=name.toLowerCase()%>-legend\"><% for (var i=0; i<segments.length; i++){%><li><span style=\"background-color:<%=segments[i].fillColor%>\"></span><%if(segments[i].label){%>(<%=segments[i].value%>)<%=segments[i].label%><%}%></li><%}%></ul>"
 
@@ -622,6 +703,6 @@
 
             }
         };
-</script>
+    </script>
 </body>
 </html>
