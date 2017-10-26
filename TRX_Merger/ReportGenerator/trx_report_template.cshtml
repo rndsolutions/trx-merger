@@ -521,7 +521,28 @@
             }
 
             if(obj.StdOutRows != null) {
+                var numberOfListItems = obj.StdOutRows.length;
+                for (var i = 0; i < numberOfListItems; i++) {
+                    var itemData = obj.StdOutRows[i];
 
+                    var row = document.createElement("tr");
+                    row.className = itemData;
+
+                    var cell = document.createElement("td");
+                    var innerHTML = itemData.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');;
+
+                    if (i % 2 != 0) {
+                        cell.innerHTML = innerHTML;
+                        row.appendChild(cell);
+                    } else {
+                        var b = document.createElement("b");
+                        b.innerHTML = innerHTML;
+                        cell.appendChild(b);
+                        row.appendChild(cell);
+                    }
+
+                    document.getElementById("detailsStdOut").appendChild(row)
+                }
             }
 
 
