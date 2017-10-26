@@ -27,7 +27,7 @@ namespace TRX_Merger.ReportGenerator
                 run.Name = reportTitle;
 
             Console.WriteLine(AppDomain.CurrentDomain.BaseDirectory);
-            string template = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ReportGenerator/trx_report_template.html"));
+            string template = File.ReadAllText(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "ReportGenerator/trx_report_template.cshtml"));
 
             string result = Engine.Razor.RunCompile(
                 template,

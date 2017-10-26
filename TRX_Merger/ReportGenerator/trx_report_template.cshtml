@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -203,7 +204,7 @@
                             <td>@DateTime.Parse(test.Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss")</td>
                             <td>@TimeSpan.Parse(test.Result.Duration).TotalSeconds.ToString("n2") sec.</td>
                             <td>FAILED</td>
-                            <td><a style="cursor: pointer" onclick="showTestDetails(@String.Format("err{0}",test.TestId))">Details</a></td>
+                            <td><a style="cursor: pointer" onclick="showTestDetails(document.getElementById('@String.Format("err{0}",test.TestId)'))">Details</a></td>
 
                         </tr>
                         }
