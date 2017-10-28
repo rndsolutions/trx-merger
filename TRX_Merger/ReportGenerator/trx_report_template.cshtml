@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using System
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -203,7 +204,7 @@
                             <td>@DateTime.Parse(test.Result.StartTime).ToString("MM.dd.yyyy hh\\:mm\\:ss")</td>
                             <td>@TimeSpan.Parse(test.Result.Duration).TotalSeconds.ToString("n2") sec.</td>
                             <td>FAILED</td>
-                            <td><a style="cursor: pointer" onclick="showTestDetails(@String.Format("err{0}",test.TestId))">Details</a></td>
+                            <td><a style="cursor: pointer" onclick="showTestDetails(document.getElementById('@String.Format("err{0}",test.TestId)'))">Details</a></td>
 
                         </tr>
                         }
@@ -520,7 +521,28 @@
             }
 
             if(obj.StdOutRows != null) {
+                var numberOfListItems = obj.StdOutRows.length;
+                for (var i = 0; i < numberOfListItems; i++) {
+                    var itemData = obj.StdOutRows[i];
 
+                    var row = document.createElement("tr");
+                    row.className = itemData;
+
+                    var cell = document.createElement("td");
+                    var innerHTML = itemData.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');;
+
+                    if (i % 2 != 0) {
+                        cell.innerHTML = innerHTML;
+                        row.appendChild(cell);
+                    } else {
+                        var b = document.createElement("b");
+                        b.innerHTML = innerHTML;
+                        cell.appendChild(b);
+                        row.appendChild(cell);
+                    }
+
+                    document.getElementById("detailsStdOut").appendChild(row)
+                }
             }
 
 
