@@ -89,7 +89,20 @@ namespace TRX_Merger.Utilities
                                 new XAttribute("timeout", testRun.ResultSummary.Counters.Timeout),
                                 new XAttribute("total", testRun.ResultSummary.Counters.Total),
                                 new XAttribute("warning", testRun.ResultSummary.Counters.Warning)),
-                            new XElement("RunInfos",
+							new XElement("Output",
+									testRun.ResultSummary.Output == null ? null : new XElement("StdOut", testRun.ResultSummary.Output.StdOut)),
+							new XElement("CollectorDataEntries",
+                                testRun.ResultSummary.CollectorDataEntries.Select(
+									cde => new XElement("Collector",
+										new XAttribute("agentName", cde.AgentName),
+										new XAttribute("uri", cde.Uri),
+										new XAttribute("collectorDisplayName", cde.CollectorDisplayName),
+										new XElement("UriAttachments",
+											new XElement("UriAttachment", cde.UriAttachments.Select(
+												ua => new XElement("A",
+													new XAttribute("href", ua.A.href))
+												)))))),
+							new XElement("RunInfos",
                                 testRun.ResultSummary.RunInfos.Select(
                                     ri => new XElement("RunInfo",
                                         new XAttribute("computerName", ri.ComputerName),
@@ -143,13 +156,68 @@ namespace TRX_Merger.Utilities
             {
                 Outcome = resultSummary.GetAttributeValue("outcome"),
                 Counters = DeserializeCounters(resultSummary),
-                RunInfos = DeserializeRunInfos(resultSummary.Descendants(ns + "RunInfo"))
+                RunInfos = DeserializeRunInfos(resultSummary.Descendants(ns + "RunInfo")),
+				Output = DeserializeOutput(resultSummary.Descendants(ns + "Output").FirstOrDefault()),
+				CollectorDataEntries = DeserializeCollectorDataEntries(resultSummary.Descendants(ns + "Collector"))
             };
 
             return res;
         }
 
-        private static List<RunInfo> DeserializeRunInfos(IEnumerable<XElement> runInfos)
+		private static ResultSummaryOutput DeserializeOutput(XElement output)
+		{
+			if (output == null)
+				return new ResultSummaryOutput();
+
+			var stdOut = output.Descendants(ns + "StdOut").FirstOrDefault();
+
+			if (stdOut == null)
+				return new ResultSummaryOutput { StdOut = null };
+			else
+				return new ResultSummaryOutput { StdOut = stdOut.Value };
+		}
+
+		private static List<Collector> DeserializeCollectorDataEntries(IEnumerable<XElement> collectorDataEntries)
+		{
+			List<Collector> result = new List<Collector>();
+
+			foreach (var cde in collectorDataEntries)
+			{
+				var agentName = cde.GetAttributeValue("agentName");
+				var uri = cde.GetAttributeValue("uri");
+				var collectorDisplayName = cde.GetAttributeValue("collectorDisplayName");
+
+				result.Add(new Collector
+				{
+					AgentName = agentName,
+					Uri = uri,
+					CollectorDisplayName = collectorDisplayName,
+					UriAttachments = DeserializeUriAttachments(cde.Descendants(ns + "UriAttachment"))
+				});
+			}
+			return result;
+		}
+
+		private static List<UriAttachment> DeserializeUriAttachments(IEnumerable<XElement> uriAttachments)
+		{
+			List<UriAttachment> result = new List<UriAttachment>();
+
+			foreach (var ua in uriAttachments)
+			{
+				result.Add(new UriAttachment
+				{
+					A = DeserializeA(ua.Descendants(ns + "A").FirstOrDefault())
+				});
+			}
+			return result;
+		}
+
+		private static Anchor DeserializeA(XElement anchor)
+		{
+			return new Anchor { href = anchor.GetAttributeValue("href") };
+		}
+
+		private static List<RunInfo> DeserializeRunInfos(IEnumerable<XElement> runInfos)
         {
             List<RunInfo> result = new List<RunInfo>();
 
