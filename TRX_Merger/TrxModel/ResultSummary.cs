@@ -10,6 +10,8 @@ namespace TRX_Merger.TrxModel
     {
         public string Outcome { get; set; }
         public Counters Counters { get; set; }
+		public ResultSummaryOutput Output { get; set; }
         public List<RunInfo> RunInfos { get; set; }
+		public List<Collector> CollectorDataEntries { get; set; }
     }
 }

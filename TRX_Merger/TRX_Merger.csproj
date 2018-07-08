@@ -60,9 +60,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TrxModel\Anchor.cs" />
+    <Compile Include="TrxModel\Collector.cs" />
     <Compile Include="TrxModel\Counters.cs" />
     <Compile Include="TrxModel\ErrorInfo.cs" />
     <Compile Include="TrxModel\Execution.cs" />
+    <Compile Include="TrxModel\ResultSummaryOutput.cs" />
     <Compile Include="TrxModel\ResultSummary.cs" />
     <Compile Include="TrxModel\RunInfo.cs" />
     <Compile Include="ReportModel\TestClassReport.cs" />
@@ -77,6 +80,7 @@
     <Compile Include="TrxModel\UnitTestResultOutput.cs" />
     <Compile Include="ReportModel\UnitTestResultReport.cs" />
     <Compile Include="ReportGenerator\TrxReportGenerator.cs" />
+    <Compile Include="TrxModel\UriAttachment.cs" />
     <Compile Include="Utilities\ExtensionMethods.cs" />
     <Compile Include="TestRunMerger.cs" />
     <Compile Include="Utilities\TRXSerializationUtils.cs" />

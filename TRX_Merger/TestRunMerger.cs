@@ -46,8 +46,6 @@ namespace TRX_Merger
             DateTime endDate = DateTime.MinValue;
 
 
-
-
             List<UnitTestResult> allResults = new List<UnitTestResult>();
             List<UnitTest> allTestDefinitions = new List<UnitTest>();
             List<TestEntry> allTestEntries = new List<TestEntry>();
@@ -58,6 +56,8 @@ namespace TRX_Merger
             {
                 Counters = new Counters(),
                 RunInfos = new List<RunInfo>(),
+				Output = new ResultSummaryOutput(),
+				CollectorDataEntries = new List<Collector>()
             };
             bool resultSummaryPassed = true;
 
@@ -100,7 +100,8 @@ namespace TRX_Merger
                 resultSummary.Counters.Timeout += tr.ResultSummary.Counters.Timeout;
                 resultSummary.Counters.Total += tr.ResultSummary.Counters.Total;
                 resultSummary.Counters.Warning += tr.ResultSummary.Counters.Warning;
-
+				resultSummary.Output.StdOut += tr.ResultSummary.Output.StdOut + Environment.NewLine;
+				resultSummary.CollectorDataEntries = resultSummary.CollectorDataEntries.Concat(tr.ResultSummary.CollectorDataEntries).ToList();
             }
 
             resultSummary.Outcome = resultSummaryPassed ? "Passed" : "Failed";
@@ -124,7 +125,6 @@ namespace TRX_Merger
                 TestLists = allTestLists,
                 ResultSummary = resultSummary,
             };
-        } 
- 
+        }  
     }
 }
