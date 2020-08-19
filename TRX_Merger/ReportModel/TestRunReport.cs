@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Mvc;
 using TRX_Merger.TrxModel;
 
 namespace TRX_Merger.ReportModel
@@ -64,7 +60,7 @@ namespace TRX_Merger.ReportModel
         }
         public string TestClassReportsJson()
         {
-            var test =  System.Web.Helpers.Json.Encode(TestClassReports.Select(s => s.Value).Select(
+            var test =  System.Text.Json.JsonSerializer.Serialize(TestClassReports.Select(s => s.Value).Select(
                 c => 
                     new 
                     { 
