@@ -105,7 +105,16 @@ namespace TRX_Merger.ReportModel
 
         public string AsJson()
         {
-            return System.Web.Helpers.Json.Encode(this);
+            string JsonString = string.Empty;
+            //Create object of Java script serializer and then serialize the custom object
+            JavaScriptSerializer serializer = new JavaScriptSerializer();
+            if (serializer != null)
+            {
+                serializer.MaxJsonLength = Int32.MaxValue; //Or any size you want to use, basically int maxValue is 2GB, you shouldn't need this big json string to deserialize, else you are doing it wrong
+                JsonString = serializer.Serialize(this);
+            }
+
+            return JsonString;
         }
 
         public string FormattedStartTime
