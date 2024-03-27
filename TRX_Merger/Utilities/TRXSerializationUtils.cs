@@ -125,7 +125,7 @@ namespace TRX_Merger.Utilities
 
                 testRun.Id = run.Attribute("id").Value;
                 testRun.Name = run.Attribute("name").Value;
-                testRun.RunUser = run.Attribute("runUser").Value;
+                testRun.RunUser = run.Attribute("runUser")?.Value ?? string.Empty;
 
                 testRun.Times = DeserializeTimes(doc.Descendants(ns + "Times").FirstOrDefault());
                 testRun.Results = DeserializeResults(doc.Descendants(ns + "UnitTestResult"));
