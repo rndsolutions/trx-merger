@@ -8,8 +8,6 @@ namespace TRX_Merger.Utilities
 {
     public static class TRXSerializationUtils
     {
-        private static string ns = "{http://microsoft.com/schemas/VisualStudio/TeamTest/2010}";
-
         #region Serializers
         internal static string SerializeAndSaveTestRun(TestRun testRun, string targetPath)
         {
@@ -122,10 +120,11 @@ namespace TRX_Merger.Utilities
             {
                 XDocument doc = XDocument.Load(trxStream);
                 var run = doc.Root;
+                var ns = run.GetDefaultNamespace();
 
                 testRun.Id = run.Attribute("id").Value;
                 testRun.Name = run.Attribute("name").Value;
-                testRun.RunUser = run.Attribute("runUser").Value;
+                testRun.RunUser = run.Attribute("runUser")?.Value ?? string.Empty;
 
                 testRun.Times = DeserializeTimes(doc.Descendants(ns + "Times").FirstOrDefault());
                 testRun.Results = DeserializeResults(doc.Descendants(ns + "UnitTestResult"));
@@ -139,6 +138,7 @@ namespace TRX_Merger.Utilities
 
         private static ResultSummary DeserializeResultSummary(XElement resultSummary)
         {
+            var ns = resultSummary.GetDefaultNamespace();
             ResultSummary res = new ResultSummary
             {
                 Outcome = resultSummary.GetAttributeValue("outcome"),
@@ -172,6 +172,7 @@ namespace TRX_Merger.Utilities
 
         private static string DeserializeText(XElement rf)
         {
+            var ns = rf.GetDefaultNamespace();
             var txt = rf.Descendants(ns + "Text").FirstOrDefault();
             if (txt == null)
                 return null;
@@ -181,6 +182,7 @@ namespace TRX_Merger.Utilities
 
         private static Counters DeserializeCounters(XElement resultSummary)
         {
+            var ns = resultSummary.GetDefaultNamespace();
             var cc = resultSummary.Descendants(ns + "Counters").FirstOrDefault();
             if (cc == null)
                 return null;
@@ -271,6 +273,7 @@ namespace TRX_Merger.Utilities
 
         private static Execution DeserializeExecution(XElement unitTest)
         {
+            var ns = unitTest.GetDefaultNamespace();
             var exec = unitTest.Descendants(ns + "Execution").FirstOrDefault();
             if (exec == null)
                 return null;
@@ -283,6 +286,7 @@ namespace TRX_Merger.Utilities
 
         private static TestMethod DeserializeTestMethod(XElement unitTest)
         {
+            var ns = unitTest.GetDefaultNamespace();
             var tm = unitTest.Descendants(ns + "TestMethod").FirstOrDefault();
             if (tm == null)
                 return null;
@@ -342,6 +346,7 @@ namespace TRX_Merger.Utilities
 
         private static ErrorInfo DeserializeErrorInfo(XElement unitTestResult)
         {
+            var ns = unitTestResult.GetDefaultNamespace();
             var err = unitTestResult.Descendants(ns + "ErrorInfo").FirstOrDefault();
             if (err == null)
                 return null;
@@ -355,6 +360,7 @@ namespace TRX_Merger.Utilities
 
         private static string DeserializeStdOut(XElement unitTestResult)
         {
+            var ns = unitTestResult.GetDefaultNamespace();       
             var stdOut = unitTestResult.Descendants(ns + "StdOut").FirstOrDefault();
             if (stdOut == null)
                 return null;
@@ -364,6 +370,7 @@ namespace TRX_Merger.Utilities
 
         private static string DeserializeStdErr(XElement unitTestResult)
         {
+            var ns = unitTestResult.GetDefaultNamespace();
             var stdErr = unitTestResult.Descendants(ns + "StdErr").FirstOrDefault();
             if (stdErr == null)
                 return null;
